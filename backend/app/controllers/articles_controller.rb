@@ -1,18 +1,20 @@
 class ArticlesController < ApplicationController
-    before_action :set_article, only [:show, :update, :destroy]
+  protect_from_forgery except: :create
 
-    # GET /articles
-    def index
-        @articles = Articles.all
+  before_action :set_article, only: [:show, :update, :destroy]
+
+  # GET /articles
+  def index
+        @articles = Article.all
         render json: @articles
-    end
+  end
 
-    #GET /articles/:id
-    def show
+  #GET /articles/:id
+  def show
         render json: @article
-    end
+  end
 
-    # POST /articles
+  # POST /articles
   def create
     @article = Article.new(article_params)
     if @article.save
