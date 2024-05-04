@@ -2,13 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import ArticleList from "../components/ArticleList";
 import PostArticleForm from "../components/PostArticleForm";
+import UpdateArticleForm from "../components/UpdateArticleForm";
 
 function Articles() {
   const [articles, setArticles] = useState([]);
-  const [articleModified, setArticleModified] = useState({
-    title: "Title modified",
-    body: "Body modified",
-  });
+  const [error, setError] = useState("");
 
   async function getArticles() {
     try {
@@ -22,6 +20,7 @@ function Articles() {
       console.log("Get articles");
     } catch (error) {
       console.error("Error getting articles from server");
+      setError("Error getting articles from server");
     }
   }
 
@@ -40,6 +39,9 @@ function Articles() {
       console.log("Article posted successfully");
     } catch (error) {
       console.error("Error posting article");
+      setError(
+        "Error posting article. Check that title and body are not empty"
+      );
     }
   }
 
@@ -57,14 +59,15 @@ function Articles() {
       console.log("Article deleted successfully");
     } catch (error) {
       console.error("Error deleting article from server");
+      setError("Error deleting article from server");
     }
   }
 
-  async function updateArticle(articleId) {
+  async function updateArticle(articleId, articleToUpdate) {
     try {
       const response = await axios.put(
         `http://localhost:3000/articles/${articleId}`,
-        articleModified,
+        articleToUpdate,
         {
           headers: {
             Accept: "application/json",
@@ -83,19 +86,20 @@ function Articles() {
       console.log("Article updated successfully");
     } catch (error) {
       console.error("Error updating article");
+      setError(
+        "Error updating article. Check that article ID is valid and title and body are included"
+      );
     }
   }
 
   return (
     <div>
       <h1>Articles</h1>
+      <p>{error}</p>
       <button onClick={getArticles}>Get</button>
       <PostArticleForm postArticle={postArticle} />
-      <ArticleList
-        articles={articles}
-        onDelete={deleteArticle}
-        onUpdate={updateArticle}
-      />
+      <UpdateArticleForm updateArticle={updateArticle} />
+      <ArticleList articles={articles} onDelete={deleteArticle} />
     </div>
   );
 }

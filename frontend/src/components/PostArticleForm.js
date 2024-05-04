@@ -18,7 +18,7 @@ function PostArticleForm({ postArticle }) {
   }
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="title">Title: </label>
+      <label htmlFor="title">Title to post: </label>
       <input
         id="title"
         type="text"
@@ -26,7 +26,7 @@ function PostArticleForm({ postArticle }) {
         value={articleToPost.title}
         onChange={handleInputChange}
       />
-      <label htmlFor="body">Body: </label>
+      <label htmlFor="body">Body to post: </label>
       <input
         id="body"
         type="text"

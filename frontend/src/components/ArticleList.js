@@ -1,6 +1,6 @@
 import Article from "./Article";
 
-function ArticleList({ articles, onDelete, onUpdate }) {
+function ArticleList({ articles, onDelete }) {
   return (
     <section>
       {articles &&
@@ -12,7 +12,6 @@ function ArticleList({ articles, onDelete, onUpdate }) {
               id={article.id}
               body={article.body}
               onDelete={() => onDelete(article.id)}
-              onUpdate={() => onUpdate(article.id)}
             />
           );
         })}
