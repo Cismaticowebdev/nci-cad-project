@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  protect_from_forgery except: :create
+  protect_from_forgery except: [:create, :update, :destroy]
 
   before_action :set_article, only: [:show, :update, :destroy]
 
