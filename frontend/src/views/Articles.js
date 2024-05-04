@@ -1,18 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import ArticleList from "../components/ArticleList";
+import PostArticleForm from "../components/PostArticleForm";
 
 function Articles() {
   const [articles, setArticles] = useState([]);
-  const [articleToPost, setArticleToPost] = useState({
-    title: "Title is here",
-    body: "I am the body",
-  });
   const [articleModified, setArticleModified] = useState({
     title: "Title modified",
     body: "Body modified",
   });
-  //const [articleId, setArticleId] = useState();
 
   async function getArticles() {
     try {
@@ -29,7 +25,7 @@ function Articles() {
     }
   }
 
-  async function postArticle() {
+  async function postArticle(articleToPost) {
     try {
       const response = await axios.post(
         "http://localhost:3000/articles",
@@ -86,7 +82,7 @@ function Articles() {
       );
       console.log("Article updated successfully");
     } catch (error) {
-      console.error("Error deleting article from server");
+      console.error("Error updating article");
     }
   }
 
@@ -94,7 +90,7 @@ function Articles() {
     <div>
       <h1>Articles</h1>
       <button onClick={getArticles}>Get</button>
-      <button onClick={postArticle}>Post</button>
+      <PostArticleForm postArticle={postArticle} />
       <ArticleList
         articles={articles}
         onDelete={deleteArticle}
