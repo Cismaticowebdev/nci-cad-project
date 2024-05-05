@@ -4,18 +4,25 @@ function PostArticleForm({ postArticle }) {
   const [articleToPost, setArticleToPost] = useState({
     title: "",
     body: "",
+    published: "",
   });
 
   function handleSubmit(event) {
     event.preventDefault();
     postArticle(articleToPost);
-    setArticleToPost({ title: "", body: "" });
+    setArticleToPost({ title: "", body: "", published: false });
   }
 
   function handleInputChange(event) {
     const { name, value } = event.target;
     setArticleToPost({ ...articleToPost, [name]: value });
   }
+
+  function handleCheckboxChange(event) {
+    const { name, checked } = event.target;
+    setArticleToPost({ ...articleToPost, [name]: checked });
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="title">Title to post: </label>
@@ -33,6 +40,14 @@ function PostArticleForm({ postArticle }) {
         name="body"
         value={articleToPost.body}
         onChange={handleInputChange}
+      />
+      <label htmlFor="published">Published: </label>
+      <input
+        id="published"
+        type="checkbox"
+        name="published"
+        checked={articleToPost.published}
+        onChange={handleCheckboxChange}
       />
       <button type="submit">Post</button>
     </form>

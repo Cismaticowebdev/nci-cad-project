@@ -5,8 +5,19 @@ class ArticlesController < ApplicationController
 
   # GET /articles
   def index
+    if params[:published].present?
+      if params[:published] == "true"
+        @articles = Article.where(published: true)
+      elsif params[:published] == "false"
+        @articles = Article.where(published: false)
+      else
         @articles = Article.all
-        render json: @articles
+      end
+    else
+      @articles = Article.all
+    end
+
+    render json: @articles
   end
 
   #GET /articles/:id

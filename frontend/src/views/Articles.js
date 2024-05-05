@@ -8,9 +8,13 @@ function Articles() {
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState("");
 
-  async function getArticles() {
+  async function getArticles(published = null) {
     try {
-      const response = await axios.get("http://localhost:3000/articles", {
+      let url = "http://localhost:3000/articles";
+      if (published !== null) {
+        url += `?published=${published}`;
+      }
+      const response = await axios.get(url, {
         headers: {
           Accept: "application/json",
         },
@@ -96,7 +100,11 @@ function Articles() {
     <div>
       <h1>Articles</h1>
       <p>{error}</p>
-      <button onClick={getArticles}>Get</button>
+      <button onClick={getArticles}>Get ALL articles</button>
+      <button onClick={() => getArticles(true)}>Get Published Articles</button>
+      <button onClick={() => getArticles(false)}>
+        Get Articles NOT Published
+      </button>
       <PostArticleForm postArticle={postArticle} />
       <UpdateArticleForm updateArticle={updateArticle} />
       <ArticleList articles={articles} onDelete={deleteArticle} />

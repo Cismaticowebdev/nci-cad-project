@@ -1,6 +1,10 @@
 const articlesDiv = document.getElementById("articles");
 const getBtn = document.getElementById("get-btn");
 getBtn.addEventListener("click", getArticles);
+const getPublishedBtn = document.getElementById("get-published-btn");
+getPublishedBtn.addEventListener("click", getPublishedArticles);
+const getNotPublishedBtn = document.getElementById("get-notpublished-btn");
+getNotPublishedBtn.addEventListener("click", getNotPublishedArticles);
 const postBtn = document.getElementById("post-btn");
 postBtn.addEventListener("click", postArticle);
 const updateBtn = document.getElementById("update-btn");
@@ -17,14 +21,39 @@ async function getArticles() {
   printArticles(data);
 }
 
+async function getPublishedArticles() {
+  articlesDiv.textContent = "";
+  let url = "http://localhost:3000/articles?published=true";
+  let response = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  let data = await response.json();
+  printArticles(data);
+}
+
+async function getNotPublishedArticles() {
+  articlesDiv.textContent = "";
+  let url = "http://localhost:3000/articles?published=false";
+  let response = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  let data = await response.json();
+  printArticles(data);
+}
+
 async function postArticle(event) {
   event.preventDefault();
 
   let titleInput = document.getElementById("post-title-input");
   let bodyInput = document.getElementById("post-body-input");
+  let publishedInput = document.getElementById("post-published-input");
 
   let title = titleInput.value;
   let body = bodyInput.value;
+  let published = publishedInput.checked;
+  console.log(published);
 
   let url = "http://localhost:3000/articles";
   let response = await fetch(url, {
@@ -32,6 +61,7 @@ async function postArticle(event) {
     body: JSON.stringify({
       title: title,
       body: body,
+      published: published,
     }),
     headers: { "Content-Type": "application/json" },
   });
@@ -41,6 +71,7 @@ async function postArticle(event) {
     console.log("Article posted successfully");
     titleInput.value = "";
     bodyInput.value = "";
+    publishedInput.checked = false;
     return data;
   } else {
     console.error("Failed to post article");
@@ -50,10 +81,11 @@ async function postArticle(event) {
 
 async function deleteArticle(event) {
   const articleDiv = event.target.closest(".article");
-  const articleId = articleDiv.querySelector("p").textContent;
+  const articleIdParagraph = articleDiv.querySelector("p");
+  const articleId = articleIdParagraph.textContent.match(/\d+/)[0];
 
   console.log(articleDiv);
-
+  console.log(articleId);
   const url = `http://localhost:3000/articles/${articleId}`;
   const response = await fetch(url, {
     method: "DELETE",
@@ -74,10 +106,12 @@ async function updateArticle(event) {
   let articleIdInput = document.getElementById("article-id");
   let titleInput = document.getElementById("update-title-input");
   let bodyInput = document.getElementById("update-body-input");
+  let publishedInput = document.getElementById("update-published-input");
 
   let articleId = articleIdInput.value;
   let title = titleInput.value;
   let body = bodyInput.value;
+  let published = publishedInput.checked;
 
   let url = `http://localhost:3000/articles/${articleId}`;
   let response = await fetch(url, {
@@ -85,6 +119,7 @@ async function updateArticle(event) {
     body: JSON.stringify({
       title: title,
       body: body,
+      published: published,
     }),
     headers: { "Content-Type": "application/json" },
   });
@@ -96,6 +131,7 @@ async function updateArticle(event) {
     articleIdInput.value = "";
     titleInput.value = "";
     bodyInput.value = "";
+    publishedInput.checked = false;
     return data;
   } else {
     console.error("Failed to update article");
@@ -115,33 +151,48 @@ function printArticle(article) {
   let div = document.createElement("div");
   div.classList.add("article");
   div.classList.add(`article-${article.id}`);
+
   let title = document.createElement("h3");
   title.classList.add("article-title");
+
   let articleId = document.createElement("p");
+
+  let published = document.createElement("p");
+  published.classList.add("article-published");
+
   let body = document.createElement("p");
   body.classList.add("article-body");
+
   let deleteBtn = document.createElement("button");
   deleteBtn.addEventListener("click", deleteArticle);
+
   title.textContent = article.title;
-  articleId.textContent = article.id;
+  articleId.textContent = "Article ID: " + article.id;
+  published.textContent = "Published: " + article.published;
   body.textContent = article.body;
   deleteBtn.textContent = "Delete";
+
   div.appendChild(title);
   div.appendChild(articleId);
+  div.appendChild(published);
   div.appendChild(body);
   div.appendChild(deleteBtn);
+
   articlesDiv.appendChild(div);
 }
 
 function printUpdatedArticle(data) {
   let articleDiv = document.querySelector(`.article-${data.id}`);
   console.log(articleDiv);
+
   if (articleDiv) {
     let title = articleDiv.querySelector(".article-title");
     console.log(title);
     let body = articleDiv.querySelector(".article-body");
     console.log(body);
+    let published = articleDiv.querySelector(".article-published");
     title.textContent = data.title;
     body.textContent = data.body;
+    published.textContent = "Published: " + data.published;
   }
 }

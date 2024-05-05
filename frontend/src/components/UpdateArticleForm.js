@@ -5,12 +5,13 @@ function UpdateArticleForm({ updateArticle }) {
   const [articleToUpdate, setArticleToUpdate] = useState({
     title: "",
     body: "",
+    published: false,
   });
 
   function handleSubmit(event) {
     event.preventDefault();
     updateArticle(articleId, articleToUpdate);
-    setArticleToUpdate({ title: "", body: "" });
+    setArticleToUpdate({ title: "", body: "", published: false });
     setArticleId("");
   }
 
@@ -22,6 +23,12 @@ function UpdateArticleForm({ updateArticle }) {
     const { name, value } = event.target;
     setArticleToUpdate({ ...articleToUpdate, [name]: value });
   }
+
+  function handleCheckboxChange(event) {
+    const { name, checked } = event.target;
+    setArticleToUpdate({ ...articleToUpdate, [name]: checked });
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="id">Article ID: </label>
@@ -41,6 +48,14 @@ function UpdateArticleForm({ updateArticle }) {
         name="body"
         value={articleToUpdate.body}
         onChange={handleInputChange}
+      />
+      <label htmlFor="published">Published: </label>
+      <input
+        id="published"
+        type="checkbox"
+        name="published"
+        checked={articleToUpdate.published}
+        onChange={handleCheckboxChange}
       />
       <button type="submit">Update</button>
     </form>

@@ -8,7 +8,9 @@
 </head>
 <body>
     <h1>Articles</h1>
-    <button id="get-btn">Get</button>
+    <button id="get-btn">Get all articles</button>
+    <button id="get-published-btn">Get articles published</button>
+    <button id="get-notpublished-btn">Get articles NOT published</button>
     <form id="post-form">
         <label for="post-title-input">Title to post: </label>
         <input
@@ -22,22 +24,34 @@
             type="text"
             name="body"
         />
+        <label for="post-published-input">Published: </label>
+        <input 
+            id="post-published-input" 
+            type="checkbox" 
+            name="published"
+        />
         <button id="post-btn" type="submit">Post</button>
     </form>
     <form id="update-form">
         <label for="article-id">Article ID</label>
         <input id="article-id" type="number">
-        <label for="update-title-input">Title to post: </label>
+        <label for="update-title-input">Title to update: </label>
         <input
             id="update-title-input"
             type="text"
             name="title"
         />
-        <label for="update-body-input">Body to post: </label>
+        <label for="update-body-input">Body to update: </label>
         <input
             id="update-body-input"
             type="text"
             name="body"
+        />
+        <label for="update-published-input">Published: </label>
+        <input 
+            id="update-published-input" 
+            type="checkbox" 
+            name="published"
         />
         <button id="update-btn" type="submit">Update</button>
     </form>

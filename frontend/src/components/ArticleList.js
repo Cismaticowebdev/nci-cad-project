@@ -11,6 +11,7 @@ function ArticleList({ articles, onDelete }) {
               title={article.title}
               id={article.id}
               body={article.body}
+              published={article.published}
               onDelete={() => onDelete(article.id)}
             />
           );
