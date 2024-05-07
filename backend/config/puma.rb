@@ -35,7 +35,7 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 plugin :tmp_restart
 
 # SSL configuration
-ssl_bind '54.175.117.19', '3000', {
+ssl_bind '172.17.0.1', '3000', {
   key: 'config/ssl/privatekey.pem',
   cert: 'config/ssl/server.crt',
   verify_mode: 'none'
