@@ -7,12 +7,15 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 # Rails app lives here
 WORKDIR /rails
 
+# Declare build argument for secret key base
+ARG SECRET_KEY_BASE
+
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
-
+ENV SECRET_KEY_BASE=${SECRET_KEY_BASE}
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
