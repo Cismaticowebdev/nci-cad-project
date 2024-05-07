@@ -36,7 +36,7 @@ plugin :tmp_restart
 
 # SSL configuration
 ssl_bind '54.175.117.19', '3000', {
-  key: '/rails/config/ssl/privatekey.pem',
-  cert: '/rails/config/ssl/server.crt',
+  key: 'config/ssl/privatekey.pem',
+  cert: 'config/ssl/server.crt',
   verify_mode: 'none'
 }
