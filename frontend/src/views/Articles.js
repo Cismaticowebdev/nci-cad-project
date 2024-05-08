@@ -7,10 +7,10 @@ import UpdateArticleForm from "../components/UpdateArticleForm";
 function Articles() {
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState("");
+  let url = "http://54.175.117.19:3001/articles";
 
   async function getArticles(published = null) {
     try {
-      let url = "http://localhost:3000/articles";
       if (published !== null) {
         url += `?published=${published}`;
       }
@@ -30,15 +30,11 @@ function Articles() {
 
   async function postArticle(articleToPost) {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/articles",
-        articleToPost,
-        {
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
+      const response = await axios.post(url, articleToPost, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
       setArticles([...articles, response.data]);
       console.log("Article posted successfully");
     } catch (error) {
@@ -51,14 +47,11 @@ function Articles() {
 
   async function deleteArticle(articleId) {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/articles/${articleId}`,
-        {
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
+      const response = await axios.delete(`${url}/${articleId}`, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
       setArticles(articles.filter((article) => article.id !== articleId));
       console.log("Article deleted successfully");
     } catch (error) {
@@ -69,15 +62,11 @@ function Articles() {
 
   async function updateArticle(articleId, articleToUpdate) {
     try {
-      const response = await axios.put(
-        `http://localhost:3000/articles/${articleId}`,
-        articleToUpdate,
-        {
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
+      const response = await axios.put(`${url}/${articleId}`, articleToUpdate, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
       const updatedArticle = response.data;
       setArticles(
         articles.map((article) => {

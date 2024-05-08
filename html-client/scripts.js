@@ -10,9 +10,10 @@ postBtn.addEventListener("click", postArticle);
 const updateBtn = document.getElementById("update-btn");
 updateBtn.addEventListener("click", updateArticle);
 
+let url = "http://54.175.117.19:3001/articles";
+
 async function getArticles() {
   articlesDiv.textContent = "";
-  let url = "http://localhost:3000/articles";
   let response = await fetch(url, {
     method: "GET",
     headers: { Accept: "application/json" },
@@ -23,8 +24,7 @@ async function getArticles() {
 
 async function getPublishedArticles() {
   articlesDiv.textContent = "";
-  let url = "http://localhost:3000/articles?published=true";
-  let response = await fetch(url, {
+  let response = await fetch(url + "?published=true", {
     method: "GET",
     headers: { Accept: "application/json" },
   });
@@ -34,8 +34,7 @@ async function getPublishedArticles() {
 
 async function getNotPublishedArticles() {
   articlesDiv.textContent = "";
-  let url = "http://localhost:3000/articles?published=false";
-  let response = await fetch(url, {
+  let response = await fetch(url + "?published=false", {
     method: "GET",
     headers: { Accept: "application/json" },
   });
@@ -55,7 +54,6 @@ async function postArticle(event) {
   let published = publishedInput.checked;
   console.log(published);
 
-  let url = "http://localhost:3000/articles";
   let response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
@@ -86,8 +84,8 @@ async function deleteArticle(event) {
 
   console.log(articleDiv);
   console.log(articleId);
-  const url = `http://localhost:3000/articles/${articleId}`;
-  const response = await fetch(url, {
+  const deleteUrl = `${url}/${articleId}`;
+  const response = await fetch(deleteUrl, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   });
@@ -113,8 +111,8 @@ async function updateArticle(event) {
   let body = bodyInput.value;
   let published = publishedInput.checked;
 
-  let url = `http://localhost:3000/articles/${articleId}`;
-  let response = await fetch(url, {
+  let updateUrl = `${url}/${articleId}`;
+  let response = await fetch(updateUrl, {
     method: "PUT",
     body: JSON.stringify({
       title: title,
