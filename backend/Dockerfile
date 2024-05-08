@@ -37,9 +37,6 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
-# Ensure access to privatekey.pem and server.crt
-RUN chmod 400 /config/ssl/server.crt /config/ssl/privatekey.pem
-
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
