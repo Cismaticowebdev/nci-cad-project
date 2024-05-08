@@ -39,4 +39,4 @@ plugin :tmp_restart
  # key: 'config/ssl/privatekey.pem',
   #cert: 'config/ssl/server.crt',
  # verify_mode: 'none'
-}
+#}
