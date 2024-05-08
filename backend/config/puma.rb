@@ -36,7 +36,7 @@ plugin :tmp_restart
 
 # SSL configuration
 ssl_bind '0.0.0.0', '3001', {
-  key: 'config/ssl/privatekey.pem',
-  cert: 'config/ssl/server.crt',
+  key: 'ssl/privatekey.pem',
+  cert: 'ssl/server.crt',
   verify_mode: 'none'
 }
